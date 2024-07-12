@@ -9,7 +9,8 @@ let driver
 before(async function () {
     driver = await new Builder()
         .forBrowser('chrome')
-        .usingServer('http://169.254.82.231:4444')
+        // .usingServer('http://169.254.82.231:4444') local
+        .usingServer('http://192.168.56.104:4444') //remote//
         .build();
 });
 
@@ -18,6 +19,7 @@ describe('Открыть окно логина', function () {
     it('Navigate to the web-site', async function () {
         await driver.get('https://qarocks.ru/');
         await driver.manage().window().maximize();
+        this.timeout(20000)
         let popup = await driver.findElement(By.css('.uscl-public_popup-main'))
         await driver.wait(until.elementIsVisible(popup))
         await driver.findElement(By.css('.ico_uscl-close')).click();
@@ -60,6 +62,6 @@ describe("Поиск", async function () {
     })
 })
 
-// after(async function () {
-//     await driver.quit();
-// })
+after(async function () {
+    await driver.quit();
+})
