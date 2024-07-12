@@ -1,0 +1,22 @@
+{
+    "name": "selenium-webdriver-practice-JS",
+    "version": "1.0.0",
+    "description": "Selenium WebDriver tests using JavaScript",
+    "main": "index.js",
+    "scripts": {
+        "standalone-install": "selenium-standalone install",
+        "standalone-start": "selenium-standalone start",
+        "test": "mocha ./test.js --reporter mochawesome --reporter-options reportDir=./reports/"
+    },
+    "dependencies": {
+        "mochawesome-report-generator": "^6.2.0"
+    },
+    "devDependencies": {
+        "mocha": "^10.6.0",
+        "mochawesome": "^7.1.3",
+        "selenium-standalone": "^9.0.0",
+        "chai": "^5.1.1",
+        "glob": "^11.0.0",
+        "selenium-webdriver": "^4.22.0"
+    }
+}

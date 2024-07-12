@@ -1,0 +1,8 @@
+{
+  "reporter": "mochawesome",
+  "reporterOptions": {
+    "reportDir": "../reports",
+    "reportFilename": "report-[datetime]",
+    "timestamp": "longDate"
+  }
+}
