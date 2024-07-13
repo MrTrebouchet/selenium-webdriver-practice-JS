@@ -6,7 +6,7 @@
     "scripts": {
         "standalone-install": "selenium-standalone install",
         "standalone-start": "selenium-standalone start",
-        "test": "mocha ./test.js --timeout 15000 --reporter mochawesome --reporter-options reportDir=./reports/"
+        "test": "mocha ./test.js --timeout 10000 --reporter mochawesome --reporter-options reportDir=./reports/"
     },
     "dependencies": {
         "mochawesome-report-generator": "^6.2.0"
