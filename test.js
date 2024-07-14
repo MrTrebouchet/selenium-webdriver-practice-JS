@@ -1,9 +1,10 @@
-const { Builder, Browser, By, Key, until } = require('selenium-webdriver');
+const { By, Key, until } = require('selenium-webdriver');
 const assert = require('assert');
 const { describe, before, it, after } = require('mocha');
 const fs = require('fs');
 const path = require('path');
-const { getChromeOptions, getFirefoxOptions, getEdgeOptions } = require('./configs/browsers-configs');
+const buildDriver = require('./configs/builder');
+
 
 
 const configPath = path.join(__dirname, './configs/main-config.json');
@@ -11,19 +12,12 @@ const configData = fs.readFileSync(configPath, 'utf8');
 const config = JSON.parse(configData);
 const URL = config.servers['local'];
 
-let driver
+let driver;
 
 before(async function () {
-    const browser = 'firefox';
-    let builder = new Builder().forBrowser(browser).usingServer(URL)
-
-    if (browser === 'chrome') {
-        builder = builder.setChromeOptions(getChromeOptions());
-    } else if (browser === 'firefox') {
-        builder = builder.setFirefoxOptions(getFirefoxOptions());
-    }
-
-    driver = await builder.build();
+    const browser = 'chrome';
+    let options;
+    driver = await buildDriver(browser, options, URL)
 });
 
 describe('Открыть окно логина', function () {
