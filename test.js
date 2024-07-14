@@ -1,17 +1,29 @@
 const { Builder, Browser, By, Key, until } = require('selenium-webdriver');
 const assert = require('assert');
 const { describe, before, it, after } = require('mocha');
-const { futimesSync } = require('fs');
+const fs = require('fs');
+const path = require('path');
+const { getChromeOptions, getFirefoxOptions, getEdgeOptions } = require('./configs/browsers-configs');
 
+
+const configPath = path.join(__dirname, './configs/main-config.json');
+const configData = fs.readFileSync(configPath, 'utf8');
+const config = JSON.parse(configData);
+const URL = config.servers['local'];
 
 let driver
 
 before(async function () {
-    driver = await new Builder()
-        .forBrowser('chrome')
-        // .usingServer('http://169.254.82.231:4444') local
-        .usingServer('http://192.168.56.104:4444') //remote//
-        .build();
+    const browser = 'firefox';
+    let builder = new Builder().forBrowser(browser).usingServer(URL)
+
+    if (browser === 'chrome') {
+        builder = builder.setChromeOptions(getChromeOptions());
+    } else if (browser === 'firefox') {
+        builder = builder.setFirefoxOptions(getFirefoxOptions());
+    }
+
+    driver = await builder.build();
 });
 
 describe('Открыть окно логина', function () {
@@ -56,7 +68,7 @@ describe("Поиск", async function () {
         let ref = await driver.findElement(By.xpath("//article[" + ref_number + "]//a[@rel='author']"));
         let author = await driver.findElement(By.xpath("//article[" + ref_number + "]//a[@rel='author']/span")).getText();
         await ref.click();
-        let author_page = await driver.findElement(By.css('#primary h1.page-title')).getText();
+        let author_page = await driver.findElement(By.css('.ast-author-box h1.page-title')).getText();
         let author_page_title = "Author name: " + author;
         assert.equal(author_page, author_page_title);
     })
